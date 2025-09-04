@@ -3,12 +3,13 @@ package com.rhconnect.collaborators.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import lombok.Generated;
+import lombok.Getter;
 
 @Data
 @Entity
 @Table(name = "employees")
 public class Employee {
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,17 +23,14 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank(message = "Position is mandatory")
-    @Column(nullable = false)
-    private String position;
-
     @Positive(message = "Salary must be positive")
     @Column(nullable = false)
     private Double salary;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "occupation_id", nullable = false)
+    private Occupation occupation;
+
 
     // setter
     public void setId(Long id) {

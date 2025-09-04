@@ -1,6 +1,6 @@
 package com.rhconnect.collaborators.controller;
 
-import com.rhconnect.collaborators.model.Employee;
+import com.rhconnect.collaborators.dto.EmployeeDTO;
 import com.rhconnect.collaborators.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +16,28 @@ public class EmployeeController {
     private EmployeeService service;
 
     @GetMapping
-    public List<Employee> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
-        return ResponseEntity.ok(service.save(employee));
+    public ResponseEntity<EmployeeDTO> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+        return ResponseEntity.ok(service.save(employeeDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @Valid @RequestBody Employee employee) {
+    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO) {
         return service.findById(id)
                 .map(existingEmployee -> {
-                    employee.setId(existingEmployee.getId());
-                    return ResponseEntity.ok(service.save(employee));
+                    employeeDTO.setId(existingEmployee.getId());
+                    return ResponseEntity.ok(service.save(employeeDTO));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

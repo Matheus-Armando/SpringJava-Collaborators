@@ -5,6 +5,7 @@ import com.rhconnect.collaborators.model.Employee;
 import com.rhconnect.collaborators.model.Occupation;
 import com.rhconnect.collaborators.repository.EmployeeRepository;
 import com.rhconnect.collaborators.repository.OccupationRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class EmployeeService {
         return employeeRepository.findById(id).map(this::convertToDTO);
     }
 
-    public EmployeeDTO save(EmployeeDTO employeeDTO) {
+    public EmployeeDTO save(@Valid EmployeeDTO employeeDTO) {
         Employee employee = convertToEntity(employeeDTO);
         Employee savedEmployee = employeeRepository.save(employee);
         return convertToDTO(savedEmployee);
